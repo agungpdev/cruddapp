@@ -3,15 +3,15 @@
 namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
-use App\Models\RegisterModel;
+use App\Models\AuthModel;
 
 class RegisterController extends BaseController
 {
-  protected $registerModel;
+  protected $authModel;
 
   public function __construct()
   {
-    $this->registerModel = new RegisterModel();
+    $this->authModel = new AuthModel();
   }
 
   public function index(): string
@@ -52,14 +52,15 @@ class RegisterController extends BaseController
       session()->setFlashdata('errors', $validation->getErrors());
       return redirect()->to(site_url() . 'create-account');
     } else {
+      $haspass = password_hash($this->request->getVar('password'), PASSWORD_DEFAULT);
       $data = [
         'username' => $this->request->getVar('username'),
-        'password' => $this->request->getVar('password'),
+        'password' => $haspass,
         'name' => $this->request->getVar('name'),
         'role' => 'Admin',
       ];
       // dd($data);
-      $this->registerModel->save($data);
+      $this->authModel->save($data);
       return redirect()->with('success', 'berhasil mendaftar')->to(site_url());
     }
   }

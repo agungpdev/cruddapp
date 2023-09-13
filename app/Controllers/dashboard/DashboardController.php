@@ -17,7 +17,10 @@ class DashboardController extends BaseController
 
   public function index(): string
   {
-    $data = ["title" => "CRUD | APP"];
+    $data = [
+      "title" => "CRUD | APP",
+      'posts' => $this->postModel->findAll()
+    ];
     return view('dashboard/v-dashboard', $data);
   }
 
@@ -65,10 +68,10 @@ class DashboardController extends BaseController
         return $this->response->setJSON($res);
       } else {
         $data = [
-          'title' => $validation->getError('title'),
+          'title' => $this->request->getVar('title'),
           'content' => $this->request->getVar('description'),
           'date' => $this->request->getVar('date'),
-          'username' => 'admin'
+          'username' => $this->request->getVar('username'),
         ];
         if ($this->postModel->save($data)) {
           $res = [
