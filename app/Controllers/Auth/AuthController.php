@@ -128,18 +128,18 @@ class AuthController extends BaseController
                     $res = [
                         'token' => csrf_hash(),
                         'status' => 'error',
-                        'message' => 'username / password wrong!'
+                        'message' => 'username or password incorrect!',
                     ];
                     return $this->response->setJSON($res);
                 } else {
                     if ($check['role'] == 'Admin') {
-                        session()->set('username', $check['username']);
+                        session()->set('admin', $check['username']);
                         session()->set('name', $check['name']);
                         session()->set('role', $check['role']);
                         $res = ['url' => site_url() . "dashboard/index"];
                         return $this->response->setJSON($res);
                     } else {
-                        session()->set('username', $check['username']);
+                        session()->set('author', $check['username']);
                         session()->set('name', $check['name']);
                         session()->set('role', $check['role']);
                         $res = ['url' => site_url() . "dashboard/author"];

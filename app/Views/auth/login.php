@@ -73,9 +73,10 @@
         success: function(response) {
           console.log(response);
           if (response.error) {
+            $('#alert').addClass('d-none')
             $('.txt_csrf_signin').val(response.token);
-            let data = response.error
-            let fields = ["username", "password"];
+            const data = response.error
+            const fields = ["username", "password"];
             fields.forEach((field) => {
               if (data['error_' + field]) {
                 $('#' + field).addClass('is-invalid');

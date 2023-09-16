@@ -15,8 +15,11 @@ class DashboardController extends BaseController
     $this->postModel = new PostModel();
   }
 
-  public function index(): string
+  public function index()
   {
+    if (!session('admin')) {
+      return redirect()->to(site_url());
+    }
     $data = [
       "title" => "CRUD | APP",
       'posts' => $this->postModel->findAll()
